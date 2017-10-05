@@ -1,0 +1,53 @@
+
+10.5缺少个目标
+
+搭建网站
+1.基于vue，iview写一个登录首页
+webpack还有很多东西需要学习
+1.--watch可以自动编译，但是不能刷新页面。而webpack-dev-server能够刷新浏览器
+2.模块热替换还没有实现？？
+3.Tree Shaking
+
+移动端开发
+
+微信小程序
+
+ui交互
+
+10.4 nodejs学习
+模块 exports
+cli：node `javascript`
+nodejs API
+URL解析=》url
+参数解析=》querystring
+HTTP通信协议：
+1.dns缓存（浏览器dns缓存，读取本地host文件，向运营商发起一个dns缓存，运营商迭代发起请求）
+2.三次握手
+3.服务器接受请求，返回数据。
+头与正文
+
+上下文，作用域
+
+讲解HTTP
+
+import与require的区别？
+建立一个自己的git仓库
+
+github学习
+
+目前粗略的学习的技术有：github,nodejs,webpack
+接下来需要在计划一下学习路线。
+架构类：nodejs,npm,webpack,github
+框架：express,vue
+基础技术类：es6，css3，less，sass，canvas，svg
+
+10.3
+1.搭建一个web环境：nodejs，git bash，webpack
+2.nodejs基本学习，es6学习,git hub学习
+
+webpack学习 模块打包工具
+代码分割，按需加载
+npm install webpack -g//先全局安装
+npm install webpack --save-dev//再项目安装
+
+commonjs是一套js规范

@@ -1,12 +1,13 @@
 var htmlWebpackPlugin = require('html-webpack-plugin')
 var path = require('path')
 var webpack = require('webpack')
+var CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
 	entry:'./src/app.js',
 	output:{
 		path:__dirname+'/dist',
-		filename:'app.bundle.js'
+		filename:'[name].bundle.js'
 	},
 	module:{
 		loaders:[
@@ -31,6 +32,9 @@ module.exports = {
 			{
 				test:/.(woff|woff2|eot|ttf|otf)$/,
 				use:['file-loader']
+			},{
+				test:/.vue$/,
+				use:['vue-loader']
 			}
 		]
 	},
@@ -40,15 +44,22 @@ module.exports = {
 			template:'index.html',
 			inject:'body'
 		}),
-		new CleanWebpackPlugin('dist'),
+		//new CleanWebpackPlugin('dist'),
 		new webpack.HotModuleReplacementPlugin()
 	],
+	resolve: {
+		// require时省略的扩展名
+		extensions: ['.js', '.vue', '.json'],
+		alias: {
+			'vue$': 'vue/dist/vue.common.js'
+		}
+	},
 	devServer: {
-		//contentBase: './public', // 本地服务器所加载的页面所在的目录
-		historyApiFallback: true, // 不跳转
-		inline: true, // 实时刷新
+		contentBase: './dist', // 本地服务器所加载的页面所在的目录
+		// historyApiFallback: true, // 不跳转
+		// inline: true, // 实时刷新
 		hot: true,
-		publicPath: "",
+		// publicPath: "",
 		// https: true
 	},
 }
