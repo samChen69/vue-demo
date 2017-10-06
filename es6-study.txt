@@ -1,0 +1,244 @@
+一.let&var
+1.var会发生“变量提升”
+// var 的情况
+console.log(foo); // 输出undefined
+var foo = 2;
+
+// let 的情况
+console.log(bar); // 报错ReferenceError
+let bar = 2;
+
+2.
+for (let i = 0; i < 3; i++) {
+  let i = 'abc';
+  console.log(i);
+}
+输出了3次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，有各自单独的作用域
+
+ES5只有全局作用域和函数作用域，没有块级作用域
+
+二.const声明常量
+1.不允许改变。属于块级作用域，常量不会提升。
+2.const只能保证这个指针是固定的，至于它指向的数据结构是不是可变的，就完全不能控制了
+三.Object.freeze方法，将对象冻结。
+四.顶层对象属性与全局属性
+var a = 1;
+// 如果在Node的REPL环境，可以写成global.a
+// 或者采用通用方法，写成this.a
+window.a // 1
+
+let b = 1;
+window.b // undefined
+
+五.变量的解构赋值
+
+六.字符串的扩展
+1.includes,startsWith,endsWith
+includes()：返回布尔值，表示是否找到了参数字符串。
+startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+endsWith()返回布尔值，表示参数字符串是否在原字符串的尾部。
+let s = 'Hello world!';
+
+s.startsWith('Hello') // true
+s.endsWith('!') // true
+s.includes('o') // true
+这三个方法都支持第二个参数，表示开始搜索的位置。
+
+let s = 'Hello world!';
+
+s.startsWith('world', 6) // true
+s.endsWith('Hello', 5) // true
+s.includes('Hello', 6) // false
+
+2.repeat()
+'x'.repeat(3) // "xxx"
+'hello'.repeat(2) // "hellohello"
+'na'.repeat(0) // ""
+
+3.padStart,padEnd
+'x'.padStart(5, 'ab') // 'ababx'
+'x'.padStart(4, 'ab') // 'abax'
+
+'x'.padEnd(5, 'ab') // 'xabab'
+'x'.padEnd(4, 'ab') // 'xaba'
+
+4.模版字符串
+$('#result').append(`
+  There are <b>${basket.count}</b> items
+   in your basket, <em>${basket.onSale}</em>
+  are on sale!
+`);
+变量名写在${}之中，大括号内部可以放入任意的JavaScript表达式
+
+七.函数的扩展
+1.函数参数默认值
+function log(x, y = 'World') {
+  console.log(x, y);
+}
+如果传入undefined，将触发该参数等于默认值，null则没有这个效果。
+指定了默认值以后，函数的length属性，将返回没有指定默认值的参数个数。
+
+2.rest参数：rest 参数（形式为...变量名）
+3.name属性
+var f = function () {};
+
+// ES5
+f.name // ""
+
+// ES6
+f.name // "f"
+
+4.箭头函数
+var sum = (num1, num2) => num1 + num2;
+// 等同于
+var sum = function(num1, num2) {
+  return num1 + num2;
+};
+
+注意this指向
+function foo() {
+  setTimeout(() => {
+    console.log('id:', this.id);
+  }, 100);
+}
+
+var id = 21;
+
+foo.call({ id: 42 });
+// id: 42
+setTimeout的参数是一个箭头函数，这个箭头函数的定义生效是在foo函数生成时，而它的真正执行要等到100毫秒后。如果是普通函数，执行时this应该指向全局对象window，这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象（本例是{id: 42}），所以输出的是42。
+
+八.数组的扩展
+1.扩展运算符...
+console.log(1, ...[2, 3, 4], 5)
+// 1 2 3 4 5
+运用：
+// ES5
+[1, 2].concat(more)
+// ES6
+[1, 2, ...more]
+
+2.find,findIndex
+[1, 5, 10, 15].find(function(value, index, arr) {
+  return value > 9;
+}) // 10
+[1, 5, 10, 15].findIndex(function(value, index, arr) {
+  return value > 9;
+}) // 2
+3.fill
+['a', 'b', 'c'].fill(7)
+// [7, 7, 7]
+fill方法还可以接受第二个和第三个参数，用于指定填充的起始位置和结束位置。
+['a', 'b', 'c'].fill(7, 1, 2)
+// ['a', 7, 'c']
+4.entries()，keys()和values()
+ES6 提供三个新的方法——entries()，keys()和values()——用于遍历数组。它们都返回一个遍历器对象（详见《Iterator》一章），可以用for...of循环进行遍历，唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
+
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// 0
+// 1
+
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// 'a'
+// 'b'
+
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// 0 "a"
+// 1 "b"
+4.includes
+该方法的第二个参数表示搜索的起始位置，默认为0。如果第二个参数为负数，则表示倒数的位置，如果这时它大于数组长度（比如第二个参数为-4，但数组长度为3），则会重置为从0开始。
+
+[1, 2, 3].includes(3, 3);  // false
+[1, 2, 3].includes(3, -1); // true
+
+九.对象的扩展
+1.属性简洁的表示法
+const foo = 'bar';
+const baz = {foo};
+baz // {foo: "bar"}
+2.方法的简写
+const o = {
+  method() {
+    return "Hello!";
+  }
+};
+3.属性名表达式
+// 方法一
+obj.foo = true;
+
+// 方法二 es5
+obj['a' + 'bc'] = 123;
+//es6
+let propKey = 'foo';
+let obj = {
+  [propKey]: true,
+  ['a' + 'bc']: 123
+};
+
+4.Object.assign
+const target = { a: 1 };
+
+const source1 = { b: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+Object.assign方法实行的是浅拷贝，而不是深拷贝。也就是说，如果源对象某个属性的值是对象，那么目标对象拷贝得到的是这个对象的引用。
+5.属性的遍历Object.keys(obj)，会反悔一个数组
+6. ?. 运算符
+//before
+const firstName = (message
+  && message.body
+  && message.body.user
+  && message.body.user.firstName) || 'default';
+//now
+const firstName = message?.body?.user?.firstName || 'default';
+只要其中一个返回null或undefined，就不再往下运算，而是返回undefined。
+
+十.Module的语法，js支持模块化开发
+es6模块不是对象，而是通过export命令显示的指定输出的代码，在通过import命令来输入
+
+1.export 
+export default {firstName,lastName,say:function(){}}
+export var lastName = 'chen'
+export var firstName = 'sam'
+import {firstName, lastName, year} from './profile';
+
+module.exports = {}//这是node的属性
+3.import静态执行
+import {firstName, lastName, year} from './profile';
+import { lastName as surname } from './profile';
+import * as circle from './circle';//接受所有的属性
+
+注意，import命令具有提升效果，会提升到整个模块的头部，首先执行。
+foo();
+import { foo } from 'my_module';
+上面的代码不会报错，因为import的执行早于foo的调用。这种行为的本质是，import命令是编译阶段执行的，在代码运行之前。
+
+由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。
+// 报错
+import { 'f' + 'oo' } from 'my_module';
+// 报错
+let module = 'my_module';
+import { foo } from module;
+
+import { foo } from 'my_module';
+import { bar } from 'my_module';
+// 等同于
+import { foo, bar } from 'my_module';
+上面代码中，虽然foo和bar在两个语句中加载，但是它们对应的是同一个my_module实例。也就是说，import语句是 Singleton 模式。
+
+如果在一个模块之中，先输入后输出同一个模块，import语句可以与export语句写在一起。
+export { foo, bar } from 'my_module';
+// 等同于
+import { foo, bar } from 'my_module';
+export { foo, bar };
+
+4.import&require
+import命令会被javaScript引擎静态分析，先于模块内的其他模块执行（叫做”连接“更合适）,固然有利于编译器提高效率，但也导致无法在运行时加载模块,Node的require方法是运行时加载模块

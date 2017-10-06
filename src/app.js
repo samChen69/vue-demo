@@ -17,3 +17,9 @@ new Vue({
 	components:{app},
 	router,
 })
+
+import {lastName,firstName} from './view/test.js'
+import test2 from './view/test2.js'
+
+console.log(firstName)
+console.log(test2)
