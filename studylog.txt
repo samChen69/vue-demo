@@ -1,4 +1,8 @@
 
+10.7
+上午过完es6，下午是webpack，vue
+es6学习网站：http://es6.ruanyifeng.com/
+
 10.6
 今天一开始遇到一个很大的问题，就是npm在install的时候没有反应，至今不是很确定什么问题。
 webpack遇到一个问题：resolve解析模块，后续需要跟进学习
