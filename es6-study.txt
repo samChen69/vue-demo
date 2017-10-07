@@ -493,3 +493,21 @@ class Point {
     return '(' + this.x + ', ' + this.y + ')';
   }
 }
+
+二十一.Module的加载实现
+1.
+<script src="path/to/myModule.js" defer></script>
+<script src="path/to/myModule.js" async></script>
+defer是“渲染完再执行”，async是“下载完就执行”。
+2.module的加载
+<script type="module" src="foo.js"></script>
+浏览器对于带有type="module"的<script>，都是异步加载，不会造成堵塞浏览器，即等到整个页面渲染完，再执行模块脚本，等同于打开了<script>标签的defer属性。<script>标签的async属性也可以打开，这时只要加载完成，渲染引擎就会中断渲染立即执行。
+3.ES6 模块与 CommonJS 模块的差异
+讨论 Node 加载 ES6 模块之前，必须了解 ES6 模块与CommonJS模块完全不同。它们有两个重大差异。
+CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+第二个差异是因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
+4.Node 加载
+Node 对 ES6 模块的处理比较麻烦，因为它有自己的 CommonJS 模块格式，与 ES6 模块格式是不兼容的。目前的解决方案是，将两者分开，ES6 模块和 CommonJS 采用各自的加载方案。
+如果脚本文件省略了后缀名，比如import './foo'，Node 会依次尝试四个后缀名：./foo.mjs、./foo.js、./foo.json、./foo.node。如果这些脚本文件都不存在，Node 就会去加载./foo/package.json的main字段指定的脚本。如果./foo/package.json不存在或者没有main字段，那么就会依次加载./foo/index.mjs、./foo/index.js、./foo/index.json、./foo/index.node。如果以上四个文件还是都不存在，就会抛出错误。
+5.CommonJS 模块加载 ES6 模块
