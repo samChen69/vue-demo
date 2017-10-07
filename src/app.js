@@ -6,9 +6,6 @@ import router from './router.js'
 Vue.use(iview)
 //全局引入iview的css
 import 'iview/dist/styles/iview.css'; 
-
-
-
 import app from './view/app.vue';
 
 new Vue({
@@ -16,10 +13,9 @@ new Vue({
 	template: '<app />',
 	components:{app},
 	router,
+	// watch:{
+	// 	'$route'(to,from){
+	// 		console.log(arguments)
+	// 	}
+	// }
 })
-
-import {lastName,firstName} from './view/test.js'
-import test2 from './view/test2.js'
-
-console.log(firstName)
-console.log(test2)
