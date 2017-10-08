@@ -5,17 +5,21 @@ import iview from 'iview';
 import router from './router.js'
 Vue.use(iview)
 //全局引入iview的css
-import 'iview/dist/styles/iview.css'; 
+import 'iview/dist/styles/iview.css';
+import store from './store.js' 
 import app from './view/app.vue';
 
-new Vue({
+var vm = new Vue({
 	el:'#app',
 	template: '<app />',
 	components:{app},
 	router,
+	store
 	// watch:{
 	// 	'$route'(to,from){
 	// 		console.log(arguments)
 	// 	}
 	// }
 })
+
+console.log(vm)
